@@ -12,7 +12,7 @@ class IndexUI:
     def sidebar():
         IndexUI.menu_admin()
 
-    def main():streamlit run inde
+    def main():
         IndexUI.sidebar()
 
 IndexUI.main()
