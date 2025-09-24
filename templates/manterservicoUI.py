@@ -47,7 +47,7 @@ class ManterServicoUI:
                 View.servico_inserir(descricao, valor_float)
                 st.success("Serviço inserido com sucesso.")
                 time.sleep(1.5)
-                st.experimental_rerun()
+                st.rerun()
             except ValueError:
                 st.error("Valor inválido. Use um número no formato 99,99.")
 
@@ -78,7 +78,7 @@ class ManterServicoUI:
                 View.servico_atualizar(servico.get_id(), nova_descricao, valor_float)
                 st.success("Serviço atualizado com sucesso.")
                 time.sleep(1.5)
-                st.experimental_rerun()
+                st.rerun()
             except ValueError:
                 st.error("Valor inválido. Use um número no formato 99,99.")
 
@@ -100,4 +100,4 @@ class ManterServicoUI:
             View.servico_excluir(servico.get_id())
             st.success("Serviço excluído com sucesso.")
             time.sleep(1.5)
-            st.experimental_rerun()
+            st.rerun()
