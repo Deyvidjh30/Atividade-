@@ -1,33 +1,45 @@
 import json
 
-class Servico:
-    def __init__(self, id, descricao, valor):
+class Profissional:
+    def __init__(self, id, nome, email, fone, senha=""):
         self.set_id(id)
-        self.set_descricao(descricao)
-        self.set_valor(valor)
+        self.set_nome(nome)
+        self.set_email(email)
+        self.set_fone(fone)
+        self.set_senha(senha)
 
     def get_id(self): return self._id
-    def get_descricao(self): return self._descricao
-    def get_valor(self): return self._valor
+    def get_nome(self): return self._nome
+    def get_email(self): return self._email
+    def get_fone(self): return self._fone
+    def get_senha(self): return self._senha
 
     def set_id(self, id): self._id = id
-    def set_descricao(self, descricao): self._descricao = descricao
-    def set_valor(self, valor): self._valor = valor
+    def set_nome(self, nome): self._nome = nome
+    def set_email(self, email): self._email = email
+    def set_fone(self, fone): self._fone = fone
+    def set_senha(self, senha): self._senha = senha
 
     def to_json(self):
-        return {"id": self._id, "descricao": self._descricao, "valor": self._valor}
+        return {
+            "id": self._id,
+            "nome": self._nome,
+            "email": self._email,
+            "fone": self._fone,
+            "senha": self._senha
+        }
 
     @staticmethod
     def from_json(dic):
-        return Servico(dic.get("id", 0), dic.get("descricao", ""), dic.get("valor", 0.0))
+        return Profissional(dic.get("id", 0), dic.get("nome", ""), dic.get("email", ""), dic.get("fone", ""), dic.get("senha", ""))
 
     def __str__(self):
-        return f"{self._id} - {self._descricao}"
+        return f"{self._id} - {self._nome}"
 
-class ServicoDAO:
+class ProfissionalDAO:
     objetos = []
     carregado = False
-    arquivo = "servicos.json"
+    arquivo = "profissionais.json"
 
     @classmethod
     def abrir(cls):
@@ -37,7 +49,7 @@ class ServicoDAO:
             with open(cls.arquivo, "r", encoding="utf-8") as f:
                 list_dic = json.load(f)
                 for dic in list_dic:
-                    cls.objetos.append(Servico.from_json(dic))
+                    cls.objetos.append(Profissional.from_json(dic))
         except FileNotFoundError:
             pass
         except Exception as e:
@@ -93,3 +105,11 @@ class ServicoDAO:
         if aux is not None:
             cls.objetos.remove(aux)
             cls.salvar()
+
+    @classmethod
+    def autenticar(cls, email, senha):
+        cls.abrir()
+        for obj in cls.objetos:
+            if obj.get_email() == email and obj.get_senha() == senha:
+                return obj
+        return None

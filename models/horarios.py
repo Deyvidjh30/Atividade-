@@ -1,33 +1,59 @@
 import json
+from datetime import datetime
 
-class Servico:
-    def __init__(self, id, descricao, valor):
+class Horario:
+    def __init__(self, id, data):
         self.set_id(id)
-        self.set_descricao(descricao)
-        self.set_valor(valor)
+        self.set_data(data)
+        self.set_confirmado(False)
+        self.set_id_cliente(0)
+        self.set_id_servico(0)
+        self.set_id_profissional(0)
+
+    def __str__(self):
+        return f"{self._id} - {self._data.strftime('%d/%m/%Y %H:%M')} - {'Sim' if self._confirmado else 'Não'}"
 
     def get_id(self): return self._id
-    def get_descricao(self): return self._descricao
-    def get_valor(self): return self._valor
+    def get_data(self): return self._data
+    def get_confirmado(self): return self._confirmado
+    def get_id_cliente(self): return self._id_cliente
+    def get_id_servico(self): return self._id_servico
+    def get_id_profissional(self): return self._id_profissional
 
     def set_id(self, id): self._id = id
-    def set_descricao(self, descricao): self._descricao = descricao
-    def set_valor(self, valor): self._valor = valor
+    def set_data(self, data): self._data = data
+    def set_confirmado(self, confirmado): self._confirmado = confirmado
+    def set_id_cliente(self, id_cliente): self._id_cliente = id_cliente
+    def set_id_servico(self, id_servico): self._id_servico = id_servico
+    def set_id_profissional(self, id_profissional): self._id_profissional = id_profissional
 
     def to_json(self):
-        return {"id": self._id, "descricao": self._descricao, "valor": self._valor}
+        return {
+            "id": self._id,
+            "data": self._data.strftime("%d/%m/%Y %H:%M"),
+            "confirmado": self._confirmado,
+            "id_cliente": self._id_cliente,
+            "id_servico": self._id_servico,
+            "id_profissional": self._id_profissional
+        }
 
     @staticmethod
     def from_json(dic):
-        return Servico(dic.get("id", 0), dic.get("descricao", ""), dic.get("valor", 0.0))
+        try:
+            data = datetime.strptime(dic.get("data", datetime.now().strftime("%d/%m/%Y %H:%M")), "%d/%m/%Y %H:%M")
+        except Exception:
+            data = datetime.now()
+        h = Horario(dic.get("id", 0), data)
+        h.set_confirmado(dic.get("confirmado", False))
+        h.set_id_cliente(dic.get("id_cliente", 0))
+        h.set_id_servico(dic.get("id_servico", 0))
+        h.set_id_profissional(dic.get("id_profissional", 0))
+        return h
 
-    def __str__(self):
-        return f"{self._id} - {self._descricao}"
-
-class ServicoDAO:
+class HorarioDAO:
     objetos = []
     carregado = False
-    arquivo = "servicos.json"
+    arquivo = "horarios.json"
 
     @classmethod
     def abrir(cls):
@@ -37,7 +63,7 @@ class ServicoDAO:
             with open(cls.arquivo, "r", encoding="utf-8") as f:
                 list_dic = json.load(f)
                 for dic in list_dic:
-                    cls.objetos.append(Servico.from_json(dic))
+                    cls.objetos.append(Horario.from_json(dic))
         except FileNotFoundError:
             pass
         except Exception as e:
