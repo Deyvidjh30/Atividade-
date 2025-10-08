@@ -1,1 +1,7 @@
-[{"id": 1, "descricao": "adadad", "valor": 777.0}, {"id": 3, "descricao": "dadad", "valor": 9999.0}]
+[
+    {
+        "id": 1,
+        "descricao": "Jardinagem",
+        "valor": 100.0
+    }
+]

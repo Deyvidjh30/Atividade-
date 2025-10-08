@@ -1,1 +1,9 @@
-[]
+[
+    {
+        "id": 3,
+        "nome": "deyvid",
+        "email": "deyvid@gmail.com",
+        "fone": "40028922",
+        "senha": "1234"
+    }
+]

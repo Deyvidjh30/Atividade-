@@ -21,54 +21,55 @@ class ManterServicoUI:
     def listar():
         servicos = View.servico_listar()
         if not servicos:
-            st.info("Nenhum serviço cadastrado.")
+            st.info("Nenhum serviço cadastrado")
             return
         df = pd.DataFrame([s.to_json() for s in servicos])
         st.dataframe(df)
 
     @staticmethod
     def inserir():
-        descricao = st.text_input("Informe a Descrição", key="srv_desc")
-        valor = st.text_input("Informe o Valor (ex: 99.99)", key="srv_val")
+        descricao = st.text_input("Informe a descrição")
+        valor = st.text_input("Informe o valor (ex: 99,99)")
+
         if st.button("Inserir"):
-            if not descricao or not valor:
-                st.error("Preencha todos os campos.")
-                return
             try:
                 valor_float = float(valor.replace(",", "."))
                 View.servico_inserir(descricao, valor_float)
-                st.success("Serviço inserido com sucesso.")
-                time.sleep(1.2)
-                st.experimental_rerun()
+                st.success("Serviço inserido com sucesso")
+                time.sleep(1)
+                st.rerun()
             except ValueError:
-                st.error("Valor inválido.")
+                st.error("Valor inválido")
 
     @staticmethod
     def atualizar():
         servicos = View.servico_listar()
         if not servicos:
-            st.info("Nenhum serviço cadastrado.")
+            st.info("Nenhum serviço cadastrado")
             return
-        servico = st.selectbox("Selecione o serviço", servicos, format_func=lambda s: f"{s.get_id()} - {s.get_descricao()}")
-        nova_descricao = st.text_input("Nova descrição", servico.get_descricao(), key="srv_up_desc")
-        novo_valor = st.text_input("Novo valor", str(servico.get_valor()), key="srv_up_val")
+
+        op = st.selectbox("Selecione um serviço", servicos, format_func=lambda s: s.get_descricao())
+        descricao = st.text_input("Nova descrição", op.get_descricao())
+        valor = st.text_input("Novo valor", str(op.get_valor()).replace(".", ","))
+
         if st.button("Atualizar"):
             try:
-                valor_float = float(novo_valor.replace(",", "."))
-                View.servico_atualizar(servico.get_id(), nova_descricao, valor_float)
-                st.success("Serviço atualizado com sucesso.")
+                valor_float = float(valor.replace(",", "."))
+                View.servico_atualizar(op.get_id(), descricao, valor_float)
+                st.success("Serviço atualizado com sucesso")
             except ValueError:
-                st.error("Valor inválido.")
+                st.error("Valor inválido")
 
     @staticmethod
     def excluir():
         servicos = View.servico_listar()
         if not servicos:
-            st.info("Nenhum serviço cadastrado.")
+            st.info("Nenhum serviço cadastrado")
             return
-        servico = st.selectbox("Selecione o serviço", servicos, format_func=lambda s: f"{s.get_id()} - {s.get_descricao()}")
+
+        op = st.selectbox("Selecione um serviço para excluir", servicos, format_func=lambda s: s.get_descricao())
         if st.button("Excluir"):
-            View.servico_excluir(servico.get_id())
-            st.success("Serviço excluído com sucesso.")
+            View.servico_excluir(op.get_id())
+            st.success("Serviço excluído com sucesso")
             time.sleep(1)
-            st.experimental_rerun()
+            st.rerun()

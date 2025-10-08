@@ -1,37 +1,38 @@
 import streamlit as st
 from view import View
+import time
 
 class PerfilUI:
     @staticmethod
     def main():
-        if "usuario" not in st.session_state:
-            st.info("Nenhum usuário logado.")
+        st.header("Meus Dados")
+
+        if "usuario_id" not in st.session_state:
+            st.info("Nenhum usuário logado")
             return
 
-        usuario = st.session_state["usuario"]
-        tipo = st.session_state.get("tipo", "Cliente")
+        uid = st.session_state["usuario_id"]
+        tipo = st.session_state.get("usuario_tipo", "cliente")
 
-        st.header("Meu Perfil")
-        st.write(f"Tipo: {tipo}")
+        if tipo == "cliente":
+            obj = View.cliente_listar_id(uid)
+        else:
+            obj = next((p for p in View.profissional_listar() if p.get_id() == uid), None)
 
-        nome = st.text_input("Nome", usuario.get("nome", ""), key="pf_nome")
-        email = st.text_input("E-mail", usuario.get("email", ""), key="pf_email")
-        fone = st.text_input("Telefone", usuario.get("fone", ""), key="pf_fone")
-        senha = st.text_input("Senha", usuario.get("senha", ""), type="password", key="pf_senha")
+        if not obj:
+            st.error("Usuário não encontrado")
+            return
+
+        nome = st.text_input("Nome", obj.get_nome())
+        email = st.text_input("E-mail", obj.get_email())
+        fone = st.text_input("Fone", obj.get_fone())
+        senha = st.text_input("Senha", obj.get_senha(), type="password")
 
         if st.button("Atualizar"):
-            if tipo == "Cliente":
-                View.cliente_atualizar(usuario["id"], nome, email, fone, senha)
-                # atualizar session_state com novos dados
-                novo = {"id": usuario["id"], "nome": nome, "email": email, "fone": fone, "senha": senha}
-                st.session_state["usuario"] = novo
-                st.success("Perfil de cliente atualizado.")
+            if tipo == "cliente":
+                View.cliente_atualizar(uid, nome, email, fone, senha)
             else:
-                View.profissional_atualizar(usuario["id"], nome, email, fone, senha)
-                novo = {"id": usuario["id"], "nome": nome, "email": email, "fone": fone, "senha": senha}
-                st.session_state["usuario"] = novo
-                st.success("Perfil de profissional atualizado.")
-
-        if st.button("Sair"):
-            from templates.loginUI import LoginUI
-            LoginUI.logout()
+                View.profissional_atualizar(uid, nome, email, fone, senha)
+            st.success("Dados atualizados com sucesso")
+            time.sleep(1)
+            st.rerun()

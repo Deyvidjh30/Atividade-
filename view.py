@@ -1,102 +1,130 @@
 from models.cliente import Cliente, ClienteDAO
+from models.profissional import Profissional, ProfissionalDAO
 from models.servico import Servico, ServicoDAO
 from models.horarios import Horario, HorarioDAO
-from models.profissional import Profissional, ProfissionalDAO
 
-class Views:
-    
+class View:
+    @staticmethod
+    def cliente_inserir(nome, email, fone, senha):
+        c = Cliente(0, nome, email, fone, senha)
+        ClienteDAO.inserir(c)
+
     @staticmethod
     def cliente_listar():
         return ClienteDAO.listar()
 
     @staticmethod
-    def cliente_inserir(nome, email, fone, senha=""):
-        cliente = Cliente(0, nome, email, fone, senha)
-        ClienteDAO.inserir(cliente)
+    def cliente_listar_id(id):
+        return ClienteDAO.listar_id(id)
 
     @staticmethod
-    def cliente_atualizar(id, nome, email, fone, senha=None):
-        cliente = Cliente(id, nome, email, fone, senha if senha is not None else "")
-        ClienteDAO.atualizar(cliente)
+    def cliente_atualizar(id, nome, email, fone, senha):
+        c = Cliente(id, nome, email, fone, senha)
+        ClienteDAO.atualizar(c)
 
     @staticmethod
     def cliente_excluir(id):
-        cliente = Cliente(id, "", "", "")
-        ClienteDAO.excluir(cliente)
+        c = Cliente(id, "", "", "", "")
+        ClienteDAO.excluir(c)
 
     @staticmethod
-    def autenticar_cliente(email, senha):
-        return ClienteDAO.autenticar(email, senha)
+    def profissional_inserir(nome, email, fone, senha):
+        p = Profissional(0, nome, email, fone, senha)
+        ProfissionalDAO.inserir(p)
 
-    # Servico
+    @staticmethod
+    def profissional_listar():
+        return ProfissionalDAO.listar()
+
+    @staticmethod
+    def profissional_listar_id(id):
+        return ProfissionalDAO.listar_id(id)
+
+    @staticmethod
+    def profissional_atualizar(id, nome, email, fone, senha):
+        p = Profissional(id, nome, email, fone, senha)
+        ProfissionalDAO.atualizar(p)
+
+    @staticmethod
+    def profissional_excluir(id):
+        p = Profissional(id, "", "", "", "")
+        ProfissionalDAO.excluir(p)
+
+    @staticmethod
+    def servico_inserir(descricao, valor):
+        s = Servico(0, descricao, valor)
+        ServicoDAO.inserir(s)
+
     @staticmethod
     def servico_listar():
         return ServicoDAO.listar()
 
     @staticmethod
-    def servico_inserir(descricao, valor):
-        servico = Servico(0, descricao, valor)
-        ServicoDAO.inserir(servico)
+    def servico_listar_id(id):
+        return ServicoDAO.listar_id(id)
 
     @staticmethod
     def servico_atualizar(id, descricao, valor):
-        servico = Servico(id, descricao, valor)
-        ServicoDAO.atualizar(servico)
+        s = Servico(id, descricao, valor)
+        ServicoDAO.atualizar(s)
 
     @staticmethod
     def servico_excluir(id):
-        servico = Servico(id, "", 0)
-        ServicoDAO.excluir(servico)
+        s = Servico(id, "", 0)
+        ServicoDAO.excluir(s)
 
-    # Horario
     @staticmethod
     def horario_inserir(data, confirmado, id_cliente, id_servico, id_profissional):
-        horario = Horario(0, data)
-        horario.set_confirmado(confirmado)
-        horario.set_id_cliente(id_cliente)
-        horario.set_id_servico(id_servico)
-        horario.set_id_profissional(id_profissional)
-        HorarioDAO.inserir(horario)
+        h = Horario(0, data)
+        h.set_confirmado(confirmado)
+        h.set_id_cliente(id_cliente)
+        h.set_id_servico(id_servico)
+        h.set_id_profissional(id_profissional)
+        HorarioDAO.inserir(h)
 
     @staticmethod
     def horario_listar():
         return HorarioDAO.listar()
 
     @staticmethod
+    def horario_listar_id(id):
+        return HorarioDAO.listar_id(id)
+
+    @staticmethod
     def horario_atualizar(id, data, confirmado, id_cliente, id_servico, id_profissional):
-        horario = Horario(id, data)
-        horario.set_confirmado(confirmado)
-        horario.set_id_cliente(id_cliente)
-        horario.set_id_servico(id_servico)
-        horario.set_id_profissional(id_profissional)
-        HorarioDAO.atualizar(horario)
+        h = Horario(id, data)
+        h.set_confirmado(confirmado)
+        h.set_id_cliente(id_cliente)
+        h.set_id_servico(id_servico)
+        h.set_id_profissional(id_profissional)
+        HorarioDAO.atualizar(h)
 
     @staticmethod
     def horario_excluir(id):
-        horario = HorarioDAO.listar_id(id)
-        if horario:
-            HorarioDAO.excluir(horario)
-
-    # Profissional
-    @staticmethod
-    def profissional_listar():
-        return ProfissionalDAO.listar()
+        h = HorarioDAO.listar_id(id)
+        if h is not None:
+            HorarioDAO.excluir(h)
 
     @staticmethod
-    def profissional_inserir(nome, email, fone, senha=""):
-        prof = Profissional(0, nome, email, fone, senha)
-        ProfissionalDAO.inserir(prof)
+    def cliente_autenticar(email, senha):
+        for c in ClienteDAO.listar():
+            if c.get_email() == email and c.get_senha() == senha:
+                return {"id": c.get_id(), "nome": c.get_nome(), "tipo": "cliente"}
+        if email == "admin" and senha == "1234":
+            return {"id": 0, "nome": "Administrador", "tipo": "admin"}
+        return None
 
     @staticmethod
-    def profissional_atualizar(id, nome, email, fone, senha=None):
-        prof = Profissional(id, nome, email, fone, senha if senha is not None else "")
-        ProfissionalDAO.atualizar(prof)
-
+    def profissional_autenticar(email, senha):
+        for p in ProfissionalDAO.listar():
+            if p.get_email() == email and p.get_senha() == senha:
+                return {"id": p.get_id(), "nome": p.get_nome(), "tipo": "profissional"}
+        return None
     @staticmethod
-    def profissional_excluir(id):
-        prof = Profissional(id, "", "", "")
-        ProfissionalDAO.excluir(prof)
-
-    @staticmethod
-    def autenticar_profissional(email, senha):
-        return ProfissionalDAO.autenticar(email, senha)
+    def profissional_autenticar(email, senha):
+        if email == "admin@profissional.com" and senha == "1234":
+            return {"id": 0, "nome": "Profissional Admin", "tipo": "profissional"}
+        for p in ProfissionalDAO.listar():
+            if p.get_email() == email and p.get_senha() == senha:
+                return {"id": p.get_id(), "nome": p.get_nome(), "tipo": "profissional"}
+        return None

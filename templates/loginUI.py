@@ -4,31 +4,19 @@ from view import View
 class LoginUI:
     @staticmethod
     def main():
-        st.header("Login no Sistema")
-        tipo = st.radio("Entrar como:", ("Cliente", "Profissional"), index=0)
-        email = st.text_input("E-mail", key="login_email")
-        senha = st.text_input("Senha", type="password", key="login_senha")
+        st.header("Entrar no Sistema")
+        email = st.text_input("Informe o e-mail")
+        senha = st.text_input("Informe a senha", type="password")
 
         if st.button("Entrar"):
-            usuario = None
-            if tipo == "Cliente":
-                usuario = View.autenticar_cliente(email, senha)
-            else:
-                usuario = View.autenticar_profissional(email, senha)
+            user = View.cliente_autenticar(email, senha)
+            if user is None:
+                user = View.profissional_autenticar(email, senha)
 
-            if usuario:
-                # armazenar apenas os dados necessários (dicionário)
-                st.session_state["usuario"] = usuario.to_json()
-                st.session_state["tipo"] = tipo
-                st.success(f"Bem-vindo(a), {usuario.get_nome()}!")
-                st.experimental_rerun()
+            if user is None:
+                st.error("E-mail ou senha inválidos")
             else:
-                st.error("E-mail ou senha inválidos.")
-
-    @staticmethod
-    def logout():
-        if "usuario" in st.session_state:
-            del st.session_state["usuario"]
-        if "tipo" in st.session_state:
-            del st.session_state["tipo"]
-        st.experimental_rerun()
+                st.session_state["usuario_id"] = user["id"]
+                st.session_state["usuario_nome"] = user["nome"]
+                st.session_state["usuario_tipo"] = user["tipo"]
+                st.rerun()
