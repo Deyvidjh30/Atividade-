@@ -120,11 +120,3 @@ class View:
             if p.get_email() == email and p.get_senha() == senha:
                 return {"id": p.get_id(), "nome": p.get_nome(), "tipo": "profissional"}
         return None
-    @staticmethod
-    def profissional_autenticar(email, senha):
-        if email == "admin@profissional.com" and senha == "1234":
-            return {"id": 0, "nome": "Profissional Admin", "tipo": "profissional"}
-        for p in ProfissionalDAO.listar():
-            if p.get_email() == email and p.get_senha() == senha:
-                return {"id": p.get_id(), "nome": p.get_nome(), "tipo": "profissional"}
-        return None

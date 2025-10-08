@@ -2,7 +2,7 @@ import streamlit as st
 from view import View
 import time
 
-class PerfilUI:
+class PerfilclientesUI:
     @staticmethod
     def main():
         st.header("Meus Dados")

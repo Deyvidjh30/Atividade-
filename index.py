@@ -5,7 +5,7 @@ from templates.manterservicoUI import ManterServicoUI
 from templates.manterhorarioUI import ManterHorarioUI
 from templates.abrircontaUI import AbrirContaUI
 from templates.loginUI import LoginUI
-from templates.perfilUI import PerfilUI
+from templates.perfilclientesUI import PerfilclientesUI
 
 st.set_page_config(layout="wide")
 
@@ -34,13 +34,13 @@ if tipo is None:
 
 elif tipo == "cliente":
     op = st.sidebar.selectbox(f"Cliente: {st.session_state['usuario_nome']}", menu_cliente)
-    if op == "Perfil": PerfilUI.main()
+    if op == "Perfil": PerfilclientesUI.main()
     elif op == "Agendar Horário": ManterHorarioUI.main()
     elif op == "Logout": logout()
 
 elif tipo == "profissional":
     op = st.sidebar.selectbox(f"Profissional: {st.session_state['usuario_nome']}", menu_profissional)
-    if op == "Perfil": PerfilUI.main()
+    if op == "Perfil": PerfilclientesUI.main()
     elif op == "Gerenciar Horários": ManterHorarioUI.main()
     elif op == "Logout": logout()
 
