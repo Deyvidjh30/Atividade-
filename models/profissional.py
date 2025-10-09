@@ -1,37 +1,41 @@
 import json
 
 class Profissional:
-    def __init__(self, id, nome, email, fone, senha):
+    def __init__(self, id, nome, email, senha, especialidade,conselho):
         self.__id = id
         self.__nome = nome
         self.__email = email
-        self.__fone = fone
+        self.__especialidade = especialidade
         self.__senha = senha
+        self.__conselho= conselho
 
     def get_id(self): return self.__id
     def get_nome(self): return self.__nome
     def get_email(self): return self.__email
-    def get_fone(self): return self.__fone
+    def get_especialidade(self): return self.__especialidade
     def get_senha(self): return self.__senha
+    def get_conselho(self): return self.__conselho
 
     def set_id(self, id): self.__id = id
     def set_nome(self, nome): self.__nome = nome
     def set_email(self, email): self.__email = email
-    def set_fone(self, fone): self.__fone = fone
+    def set_fone(self, especialidade): self.__especialidade= especialidade
     def set_senha(self, senha): self.__senha = senha
+    def set_conselho(self,conselho): self.__conselho=conselho
 
     def to_json(self):
         return {
             "id": self.__id,
             "nome": self.__nome,
             "email": self.__email,
-            "fone": self.__fone,
+            "conselho": self.__conselho,
+            "especialidades": self.__especialidades,
             "senha": self.__senha
         }
 
     @staticmethod
     def from_json(dic):
-        return Profissional(dic.get("id", 0), dic.get("nome", ""), dic.get("email", ""), dic.get("fone", ""), dic.get("senha", ""))
+        return Profissional(dic.get("id", 0), dic.get("nome", ""), dic.get("email", ""), dic.get("especialidade", ""),dic.get("conselho", ""), dic.get("senha", ""))
 
     def __str__(self):
         return f"{self.__id} - {self.__nome}"
