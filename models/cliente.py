@@ -29,6 +29,7 @@ class Cliente:
             "senha": self.__senha
         }
 
+
     @staticmethod
     def from_json(dic):
         return Cliente(dic.get("id", 0), dic.get("nome", ""), dic.get("email", ""), dic.get("fone", ""), dic.get("senha", ""))

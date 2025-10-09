@@ -28,8 +28,8 @@ class View:
         ClienteDAO.excluir(c)
 
     @staticmethod
-    def profissional_inserir(nome, email, fone, senha):
-        p = Profissional(0, nome, email, fone, senha)
+    def profissional_inserir(nome, email, especialidade, conselho, senha):
+        p = Profissional(0, nome, email, especialidade, conselho, senha)
         ProfissionalDAO.inserir(p)
 
     @staticmethod
@@ -41,13 +41,13 @@ class View:
         return ProfissionalDAO.listar_id(id)
 
     @staticmethod
-    def profissional_atualizar(id, nome, email, fone, senha):
-        p = Profissional(id, nome, email, fone, senha)
+    def profissional_atualizar(id, nome, email, especialidade, conselho, senha):
+        p = Profissional(id, nome, email, especialidade ,conselho, senha)
         ProfissionalDAO.atualizar(p)
 
     @staticmethod
     def profissional_excluir(id):
-        p = Profissional(id, "", "", "", "")
+        p = Profissional(id, "", "", "", "","")
         ProfissionalDAO.excluir(p)
 
     @staticmethod

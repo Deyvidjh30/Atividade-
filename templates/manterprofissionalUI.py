@@ -35,7 +35,7 @@ class ManterProfissionalUI:
         senha = st.text_input("Informe a senha", type="password")
 
         if st.button("Inserir"):
-            View.profissional_inserir(nome, email, especialidade, senha,conselho)
+            View.profissional_inserir(nome, email, especialidade,conselho,senha)
             st.success("Profissional inserido com sucesso")
             time.sleep(1)
             st.rerun()
@@ -55,7 +55,7 @@ class ManterProfissionalUI:
         senha = st.text_input("Nova senha", op.get_senha(), type="password")
 
         if st.button("Atualizar"):
-            View.profissional_atualizar(op.get_id(), nome, email, especialidade, senha,conselho)
+            View.profissional_atualizar(op.get_id(), nome, email, especialidade,conselho, senha)
             st.success("Profissional atualizado com sucesso")
 
     @staticmethod
