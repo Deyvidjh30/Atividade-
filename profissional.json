@@ -3,16 +3,24 @@
         "id": 1,
         "nome": "Dani",
         "email": "dani@gmail.com",
-        "especialidade": "Design",
-        "conselho": "Professora",
+        "especialidade": "Jardineira",
+        "conselho": "...",
         "senha": "1234"
     },
     {
         "id": 2,
         "nome": "Gilbert",
         "email": "Gilbert@gmail.com",
-        "especialidade": "POO",
-        "conselho": "Professor",
+        "especialidade": "Barbeiro",
+        "conselho": "...",
+        "senha": "1234"
+    },
+    {
+        "id": 3,
+        "nome": "Demonstenes",
+        "email": "demm@gamil.com",
+        "especialidade": "Eletricista",
+        "conselho": "...",
         "senha": "1234"
     }
 ]

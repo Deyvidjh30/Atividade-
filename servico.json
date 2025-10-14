@@ -3,5 +3,15 @@
         "id": 1,
         "descricao": "Jardinagem",
         "valor": 100.0
+    },
+    {
+        "id": 2,
+        "descricao": "Corte de cabelo",
+        "valor": 15.0
+    },
+    {
+        "id": 3,
+        "descricao": "Consertar fiação",
+        "valor": 120.0
     }
 ]

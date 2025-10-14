@@ -1,16 +1,23 @@
 [
     {
         "id": 3,
-        "nome": "deyvid",
+        "nome": "Deyvid",
         "email": "deyvid@gmail.com",
         "fone": "40028922",
         "senha": "1234"
     },
     {
+        "id": 5,
+        "nome": "Joao Gabriel",
+        "email": "joap@gamil.com",
+        "fone": "84981562356",
+        "senha": "1234"
+    },
+    {
         "id": 4,
         "nome": "Davi",
-        "email": "Davi@gmail.com",
-        "fone": "85698523",
+        "email": "davi@gmail.com",
+        "fone": "84981565622",
         "senha": "1234"
     }
 ]
